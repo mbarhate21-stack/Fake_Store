@@ -1,0 +1,237 @@
+{
+  "info": {
+    "_postman_id": "0a1f7ab5-1bf0-4bad-ab5e-ecfe9820c816",
+    "name": "Fake_Store_Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53941817",
+    "_collection_link": "https://go.postman.co/collection/53941817-0a1f7ab5-1bf0-4bad-ab5e-ecfe9820c816?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get_Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Status Code Validation\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "})\r",
+              ";\r",
+              "//Array Validation IMPORTANT\r",
+              "let response = pm.response.json();\r",
+              "\r",
+              "console.log(response[1].title);\r",
+              "\r",
+              "//Validate Product Title Exists\r",
+              "pm.test(\"Product title exists\", function () {\r",
+              "\r",
+              "    let response = pm.response.json();\r",
+              "\r",
+              "    pm.expect(response[0].title).to.exist;\r",
+              "\r",
+              "});\r",
+              "\r",
+              "//Validate Response is Array\r",
+              "pm.test(\"Response is array\", function () {\r",
+              "\r",
+              "    let response = pm.response.json();\r",
+              "\r",
+              "    pm.expect(response).to.be.an(\"array\");\r",
+              "\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fakestoreapi.com/products",
+          "protocol": "https",
+          "host": [
+            "fakestoreapi",
+            "com"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post_Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "// response Validation\r",
+              "let response = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Product title validation\", function () {\r",
+              "\r",
+              "    pm.expect(response.title)\r",
+              "    .to.eql(\"API Testing Book\");\r",
+              "\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"API Testing Book\",\r\n  \"price\": 500,\r\n  \"description\": \"Postman Learning\",\r\n  \"image\": \"https://i.pravatar.cc\",\r\n  \"category\": \"education\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fakestoreapi.com/products",
+          "protocol": "https",
+          "host": [
+            "fakestoreapi",
+            "com"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Put_Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "//updated validation\r",
+              "let response = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Updated title validation\", function () {\r",
+              "\r",
+              "    pm.expect(response.title)\r",
+              "    .to.eql(\"Updated Product\");\r",
+              "\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Updated Product\",\r\n  \"price\": 800\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fakestoreapi.com/products/1",
+          "protocol": "https",
+          "host": [
+            "fakestoreapi",
+            "com"
+          ],
+          "path": [
+            "products",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Del_Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200)\r",
+              "});\r",
+              "//schema validation\r",
+              "const schema = {\r",
+              "    type: \"object\",\r",
+              "    required: [\"id\", \"title\", \"price\", \"category\"]\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Schema validation\", function () {\r",
+              "    pm.response.to.have.jsonSchema(schema);\r",
+              "});\r",
+              "// time validation\r",
+              "pm.test(\"Response time is less than 1000ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://fakestoreapi.com/products/1",
+          "protocol": "https",
+          "host": [
+            "fakestoreapi",
+            "com"
+          ],
+          "path": [
+            "products",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
